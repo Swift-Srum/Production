@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 02:13 PM
+-- Generation Time: Feb 27, 2025 at 03:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,7 +51,29 @@ CREATE TABLE `bowsers` (
 
 INSERT INTO `bowsers` (`id`, `ownerId`, `manufacturer_details`, `model`, `serial_number`, `specific_notes`, `capacity_litres`, `length_mm`, `width_mm`, `height_mm`, `weight_empty_kg`, `weight_full_kg`, `supplier_company`, `date_received`, `date_returned`) VALUES
 (52, 1, 'Sample details about the item', 'XYZ-123', 'SN456789', 'Handle with care', '100', '50', '30', '40', '10', '110', 'ABC Supplies Ltd.', '2025-02-17', '2025-03-01'),
-(53, 1, 'Sample details about the item', 'XYZ-123', 'SN456789', 'Handle with care', '100', '50', '30', '40', '10', '110', 'ABC Supplies Ltd.', '2025-02-17', '2025-03-01');
+(53, 1, 'Sample details about the item', 'XYZ-123', 'SN456789', 'Handle with care', '100', '50', '30', '40', '10', '110', 'ABC Supplies Ltd.', '2025-02-17', '2025-03-01'),
+(54, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-07', '2025-02-25'),
+(55, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-07', '2025-02-25'),
+(56, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-13', '2025-02-28'),
+(57, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-13', '2025-02-28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uploads`
+--
+
+CREATE TABLE `uploads` (
+  `fileName` text NOT NULL,
+  `bowserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `uploads`
+--
+
+INSERT INTO `uploads` (`fileName`, `bowserId`) VALUES
+('CoD_51312.jpg', 57);
 
 -- --------------------------------------------------------
 
@@ -74,7 +96,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `sessionKey`, `active`, `admin`) VALUES
-(1, 'CoD', 'b16723164bc89d5b8e389db92db7d1c5222d9411e4b0371a52d17a4a656fe23f', '', '*YUAefRGPNnNPPtVSLZ_wYxbm', 1, 1);
+(1, 'CoD', 'b16723164bc89d5b8e389db92db7d1c5222d9411e4b0371a52d17a4a656fe23f', '', 'yWQHneyqcPktjbHXOcaZ_rtDr', 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -100,7 +122,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bowsers`
 --
 ALTER TABLE `bowsers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `users`
