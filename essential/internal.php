@@ -51,8 +51,8 @@
 	
 	function logImageUpload($fileName, $itemId) {
 		$db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        $q = $db->prepare("INSERT INTO `images` (`fileName`, `itemId`) VALUES (?, ?)");
-        $q->bind_param('ss', $fileName, $itemId);
+        $q = $db->prepare("INSERT INTO `uploads` (`fileName`, `bowserId`) VALUES (?, ?)");
+        $q->bind_param('si', $fileName, $itemId);
         $q->execute();
 	}
 	
@@ -225,8 +225,8 @@
 {
 
             $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-            $q = $db->prepare("SELECT * FROM images WHERE itemId = ? LIMIT 1;");
-            $q->bind_param('s', $id);
+            $q = $db->prepare("SELECT * FROM uploads WHERE bowserId = ? LIMIT 1;");
+            $q->bind_param('i', $id);
             $q->execute();
 
             $res = $q->get_result();
@@ -248,7 +248,7 @@
 
         if ($loggedIn == true) {
             $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-            $q = $db->prepare("SELECT * FROM products WHERE ownerId = ? ORDER BY id DESC LIMIT 1;"); //This query will sort the list of items by descending order and select the one which was most recently inserted by the user
+            $q = $db->prepare("SELECT * FROM bowsers WHERE ownerId = ? ORDER BY id DESC LIMIT 1;"); //This query will sort the list of items by descending order and select the one which was most recently inserted by the user
             $q->bind_param('s', $ownerId);
             $q->execute();
 
