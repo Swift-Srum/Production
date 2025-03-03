@@ -1,10 +1,5 @@
 # Prevent directory listing (Indexing) and redirect to 404 page
 Options -Indexes
 
-# Redirect to 404 page if attempting to access a directory
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^(.*)/$ /404.html [L]
-
 # Custom 404 error page
 ErrorDocument 404 /404.html
