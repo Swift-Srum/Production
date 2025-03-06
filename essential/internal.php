@@ -285,6 +285,28 @@
         
     }
 	
+	function searchBowsers($eastings, $northings)
+{
+
+            $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            $q = $db->prepare("SELECT * FROM bowsers WHERE active = 1 AND ( (eastings BETWEEN ? AND ?) AND (northings BETWEEN ? AND ?) );");
+            $q->bind_param('iiii', $eastings - 5000, $eastings + 5000, $northings - 5000, $northings + 5000);
+            $q->execute();
+
+            $res = $q->get_result();
+
+            $items = array(); // Initialize an array to store item data
+
+            while ($row = $res->fetch_array()) {
+                // Add each item to the array
+                $items[] = $row;
+            }
+
+            // Return the array of items
+            return $items;
+        
+    }
+	
 	function getItemsAdmin($platform)
 {
 
