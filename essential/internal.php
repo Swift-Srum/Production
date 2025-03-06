@@ -263,12 +263,12 @@
 
     return "res=999";
 }
-    function getItems($platform)
+    function getAllBowsers()
 {
 
             $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-            $q = $db->prepare("SELECT * FROM products WHERE platform = ?;");
-            $q->bind_param('s', $platform);
+            $q = $db->prepare("SELECT * FROM bowsers WHERE active = 1;");
+            //$q->bind_param('b', $active);
             $q->execute();
 
             $res = $q->get_result();
@@ -316,6 +316,34 @@
             $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             $q = $db->prepare("SELECT * FROM products;");
             //$q->bind_param('s', $ownerId);
+            $q->execute();
+
+            $res = $q->get_result();
+
+            $items = array(); // Initialize an array to store item data
+
+            while ($row = $res->fetch_array()) {
+                // Add each item to the array
+                $items[] = $row;
+            }
+
+            // Return the array of items
+            return $items;
+        }
+    }
+
+    return "res=999";
+}
+
+	function getAllBowsersOwned($ownerId)
+{
+    if (isset($_COOKIE['user_name']) && isset($_COOKIE['sessionId'])) {
+        $loggedIn = confirmSessionKey($_COOKIE['user_name'], $_COOKIE['sessionId']);
+
+        if ($loggedIn == true) {
+            $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            $q = $db->prepare("SELECT * FROM bowsers WHERE active = 1 AND ownerId = ?;");
+            $q->bind_param('s', $ownerId);
             $q->execute();
 
             $res = $q->get_result();
