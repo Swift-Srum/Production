@@ -13,6 +13,8 @@ $err = $aes->decrypt($err, "secretkey");;
 $loggedIn = confirmSessionKey($username, $sessionID);
 $isAdmin = checkIsUserAdmin($username, $sessionID);
 
+$idx = getUserID();
+
 $userType = "";
 
 if ($isAdmin == true)
@@ -25,6 +27,12 @@ else
 
 if ($loggedIn != true)
 	die();
+
+$bowsers = getAllBowsers();
+$ownBowsers = getAllBowsersOwned($idx);
+
+$totalBowsers = count($bowsers);
+$ownBowsersCount = count($ownBowsers);
 
 
 ?>
@@ -85,7 +93,7 @@ else
 ?>
 <div>
     <div class="top"></div>
-    <div class="text"><h1>Welcome to the dashboard, <?php echo $username?>.</h1></div>
+    <div class="text"><h1>Welcome to the dashboard, <?php echo $username?>. Access Type: <?php echo $userType ?></h1></div>
     <div class="content">
         <div class="mainHeader">
             <div class="mainHeaderText">
@@ -106,34 +114,36 @@ else
                 </div>
                 <div class="productInfo">
                     <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:15px"/>
-                    <div>Total Avaliable Bowsers: 0</div>
+                    <div>Total Avaliable Bowsers: <?php echo $totalBowsers ?></div>
                 </div>
                 <div onclick="location.href = 'lol';" class="getAccessBtn">View Now</div>
         </div>
-		<div class="product">
-                <img src="/assets/back.jpg" alt="Product Image" class="productImage"/>
-                <div class="productTitle">View Your Bowsers (Admin)</div>
-                <div class="productInfo">
-
-                </div>
-                <div class="productInfo">
-                    <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:15px"/>
-                    <div>Your Bowsers: 0</div>
-					
-                </div>
-                <div onclick="location.href = 'lol';" class="getAccessBtn">View Now</div>
+		<?php
+    if ($userType == "Admin") {
+        echo '
+        <div class="product">
+            <img src="/assets/back.jpg" alt="Product Image" class="productImage"/>
+            <div class="productTitle">View Your Bowsers (Admin)</div>
+            <div class="productInfo"></div>
+            <div class="productInfo">
+                <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:15px"/>
+                <div>Your Bowsers: ' . $ownBowsersCount . '</div>
+            </div>
+            <div onclick="location.href = \'lol\';" class="getAccessBtn">View Now</div>
         </div>
-		<div class="product">
-                <img src="/assets/back.jpg" alt="Product Image" class="productImage"/>
-                <div class="productTitle">Add Bowser To Database (Admin)</div>
-                <div class="productInfo">
-
-                </div>
-                <div class="productInfo">
-                    <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:15px"/>
-                    <div>Your Bowsers: 0</div>
-                </div>
-                <div onclick="location.href = 'lol';" class="getAccessBtn">Add Now</div>
+        <div class="product">
+            <img src="/assets/back.jpg" alt="Product Image" class="productImage"/>
+            <div class="productTitle">Add Bowser To Database (Admin)</div>
+            <div class="productInfo"></div>
+            <div class="productInfo">
+                <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:15px"/>
+                <div>Your Bowsers: ' . $ownBowsersCount . '</div>
+            </div>
+            <div onclick="location.href = \'lol\';" class="getAccessBtn">Add Now</div>
         </div>
+        ';
+    }
+?>
+
     </div>
 </div>
