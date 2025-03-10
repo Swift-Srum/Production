@@ -34,7 +34,7 @@ $itemImageName = getItemImage($itemId);
 // Initialize AES encryption object and decrypt error message from URL parameter
 $aes = new AES256;
 $err = $_GET['err'];
-$err = $aes->decrypt($err, "secretkey");
+$err = $aes->decrypt($err, "henrywroteallofthiscode");
 
 // Loop through bike details array and assign values to variables
 foreach ($itemInfo as $item) {
