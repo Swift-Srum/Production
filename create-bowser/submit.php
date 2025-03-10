@@ -80,11 +80,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
         createBowser($idx, $man_details, $model, $serial, $notes, $capacity, $length, $width, $height, $weight_empty, $weight_full, $supplier, $date_received, $date_returned, $postcode, $northings, $eastings);
         echo 'created';
-		header("Location: ../create-bowser/?err=" . urlencode($aes->encrypt("Bowser created successfully!", "secretkey")));
+		header("Location: ../create-bowser/?err=" . urlencode($aes->encrypt("Bowser created successfully!", "henrywroteallofthiscode")));
     } else {
         // If any required field is empty, return error response and redirect with error message
         echo 'Empty Fields';
-        header("Location: ../create-bowser/?err=" . urlencode($aes->encrypt("Please fill out all fields", "secretkey")));
+        header("Location: ../create-bowser/?err=" . urlencode($aes->encrypt("Please fill out all fields", "henrywroteallofthiscode")));
         exit(); // Exit script after redirection
     }
 } else {
