@@ -41,10 +41,10 @@ if ($postcode) {
 $userType = $isAdmin ? "Admin" : "Standard";
 $isAdmin = $isAdmin ? 1 : 0;
 
-$distance = $_GET['distance'] * 1000;
+$distance1 = $_GET['distance'];
 
-if ($distance > 30)
-	$distance == 30;
+if ($distance > 30000)
+	$distance = 30000;
 
 $n1 = $northings - $distance;
 $n2 = $northings + $distance;
@@ -88,11 +88,18 @@ try {
 <!-- Postcode Search Bar -->
 <!-- Postcode Search Bar with Distance Slider -->
 <form method="GET" action="" class="search-form">
-    <input type="text" name="postcode" placeholder="Enter postcode" required>
+    <input type="text" name="postcode" placeholder="Enter postcode" required 
+        value="<?= isset($_GET['postcode']) ? htmlspecialchars($_GET['postcode']) : '' ?>">
+
     <div class="slider-container">
-		<label for="distance" style="color: white;">Distance: <span id="distanceValue">15</span> km</label>
-		<input type="range" id="distance" name="distance" min="1" max="30" value="15" oninput="updateDistanceValue(this.value)">
-	</div>
+        <label for="distance" style="color: white;">
+            Distance: <span id="distanceValue"><?= isset($_GET['distance']) ? (int)$_GET['distance'] : 15 ?></span> km
+        </label>
+        <input type="range" id="distance" name="distance" min="1" max="30" 
+            value="<?= isset($_GET['distance']) ? (int)$_GET['distance'] : 15 ?>" 
+            oninput="updateDistanceValue(this.value)">
+    </div>
+
     <button type="submit">Search</button>
 </form>
 
@@ -174,5 +181,6 @@ function deleteItem(id) {
         document.getElementById("distanceValue").textContent = value;
     }
 </script>
+
 </body>
 </html>
