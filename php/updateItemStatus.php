@@ -46,20 +46,20 @@ if (isset($_POST['itemId']) && isset($_POST['avaliable'])) {
 			updateItemStatusAvaliable($itemId);
 		    echo 'responseCode=1';
 		    // Redirect with success message
-		    header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("Status updated.", "secretkey")));
+		    header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("Status updated.", "henrywroteallofthiscode")));
 		}
 		if($avaliable == "yes")
 		{
 			updateItemStatusUnavaliable($itemId);
 		    echo 'responseCode=1';
 		    // Redirect with success message
-		    header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("Status updated.", "secretkey")));
+		    header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("Status updated.", "henrywroteallofthiscode")));
 		}
     }else {
         // Send error response if required fields are empty
         echo 'responseCode=991&status=' . $avaliable;
         // Redirect with error message
-        header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("An error occurred.", "secretkey")));
+        header("Location: ../edit-item/?itemId=" . $itemId . "&?err=" . urlencode($aes->encrypt("An error occurred.", "henrywroteallofthiscode")));
     }
 } else {
     // Send response code if POST parameters are not set
