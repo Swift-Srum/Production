@@ -68,7 +68,7 @@ $items = searchBowsers($eastings, $northings);
 <div class="content">
     <div class="mainHeader">
         <div class="mainHeaderText">
-            <div class="HeaderText">TEST</div>
+            <div class="HeaderText">Just checking  if plesk is linked</div>
             <div class="HeaderText textPurple">TEST</div>
         </div>
     </div>
