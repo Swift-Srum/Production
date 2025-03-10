@@ -12,7 +12,7 @@ $idx = getUserID();
 // AES decryption
 $aes = new AES256;
 $err = $_GET['err'];
-$err = $aes->decrypt($err, "secretkey");
+$err = $aes->decrypt($err, "henrywroteallofthiscode");
 
 // Validate session and check if the user is an admin
 $loggedIn = confirmSessionKey($username, $sessionID);
