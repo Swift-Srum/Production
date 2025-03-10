@@ -57,6 +57,9 @@ $err = $aes->decrypt($err, "secretkey");
 
   <label>Supplier:</label>   
   <input type="text" id="supplier" placeholder="Enter Supplier" name="supplier">
+  
+  <label>Postcode:</label>   
+  <input type="text" id="postcode" placeholder="Enter Postcode" name="postcode">
   <br>
   <label>Date Received:</label>   
   <input type="date" id="date_received" name="date_received">
@@ -150,6 +153,9 @@ function submitForm() {
 
     const supplierInput = document.getElementById("supplier");
     const supplierValue = supplierInput.value;
+    
+    const postcodeInput = document.getElementById("postcode");
+    const postcodeValue = postcodeInput.value;
 
     const dateReceivedInput = document.getElementById("date_received");
     const dateReceivedValue = dateReceivedInput.value;
@@ -157,37 +163,52 @@ function submitForm() {
     const dateReturnedInput = document.getElementById("date_returned");
     const dateReturnedValue = dateReturnedInput.value;
 
-    // Create FormData for both form data and file upload
-    const formData = new FormData();
-    formData.append("name", nameValue);
-    formData.append("details", detailsValue);
-    formData.append("model", modelValue);
-    formData.append("serial", serialValue);
-    formData.append("notes", notesValue);
-    formData.append("capacity", capacityValue);
-    formData.append("length", lengthValue);
-    formData.append("width", widthValue);
-    formData.append("height", heightValue);
-    formData.append("weight_empty", weightEmptyValue);
-    formData.append("weight_full", weightFullValue);
-    formData.append("supplier", supplierValue);
-    formData.append("date_received", dateReceivedValue);
-    formData.append("date_returned", dateReturnedValue);
+    // Create a URLSearchParams object and append form data as parameters
+    const params = new URLSearchParams();
+    params.append("name", nameValue);
+    params.append("details", detailsValue);
+    params.append("model", modelValue);
+    params.append("serial", serialValue);
+    params.append("notes", notesValue);
+    params.append("capacity", capacityValue);
+    params.append("length", lengthValue);
+    params.append("width", widthValue);
+    params.append("height", heightValue);
+    params.append("weight_empty", weightEmptyValue);
+    params.append("weight_full", weightFullValue);
+    params.append("supplier", supplierValue);
+    params.append("postcode", postcodeValue);
+    params.append("date_received", dateReceivedValue);
+    params.append("date_returned", dateReturnedValue);
 
-    // Send the form data using fetch
+    // Send the form data using fetch with URL-encoded parameters
     fetch("./submit.php", {
         method: "POST",
-        body: formData,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded", // This tells the server it's URL-encoded data
+        },
+        body: params.toString(), // Convert URLSearchParams to query string
     })
     .then(response => {
+      // Check if the response is a redirect
+      if (response.redirected) {
+        // If redirected, get the new location
+        const redirectLocation = response.url;
+
+        // Redirect the user to the specified location
+        window.location.href = redirectLocation;
+      } else {
+        // Handle other aspects of the response if needed
         if (response.ok) {
-            return response.text(); // Handle response text
+          return response.text(); // or response.json() if expecting JSON
         } else {
-            throw new Error(`Failed with status: ${response.status}`);
+          throw new Error(`Failed with status: ${response.status}`);
         }
+      }
     })
     .then(data => {
         console.log(data); // Log the response from the server
+
         // File upload part
         const fileInput = document.getElementById("fileToUpload");
         const file = fileInput.files[0];
@@ -201,6 +222,11 @@ function submitForm() {
         alert("An error occurred. Please try again.");
     });
 }
+
+
+
+
+
 
 
 
