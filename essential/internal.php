@@ -3,7 +3,7 @@
     error_reporting(E_ALL);
     /* Admin panel functions */
 	
-	function createBowser($idx, $manufacturer_details, $model, $serial_number, $specific_notes, $capacity_litres, $length_mm, $width_mm, $height_mm, $weight_empty_kg, $weight_full_kg, $supplier_company, $date_received, $date_returned) {
+	function createBowser($idx, $manufacturer_details, $model, $serial_number, $specific_notes, $capacity_litres, $length_mm, $width_mm, $height_mm, $weight_empty_kg, $weight_full_kg, $supplier_company, $date_received, $date_returned, $postcode, $northings, $eastings) {
     // Connect to the database
     $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
@@ -15,8 +15,8 @@
     // Prepare the SQL statement
     $q = $db->prepare("
         INSERT INTO `bowsers` 
-        (`ownerId`, `manufacturer_details`, `model`, `serial_number`, `specific_notes`, `capacity_litres`, `length_mm`, `width_mm`, `height_mm`, `weight_empty_kg`, `weight_full_kg`, `supplier_company`, `date_received`, `date_returned`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (`ownerId`, `manufacturer_details`, `model`, `serial_number`, `specific_notes`, `capacity_litres`, `length_mm`, `width_mm`, `height_mm`, `weight_empty_kg`, `weight_full_kg`, `supplier_company`, `date_received`, `date_returned`, `eastings`, `northings`, `postcode`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
     if (!$q) {
@@ -25,11 +25,11 @@
 
     // Bind parameters with correct types
     $q->bind_param(
-        'isssssssssssss', 
+        'isssssssssssssiis', 
         $idx, $manufacturer_details, $model, $serial_number, $specific_notes, 
         $capacity_litres, $length_mm, $width_mm, $height_mm, 
         $weight_empty_kg, $weight_full_kg, $supplier_company, 
-        $date_received, $date_returned
+        $date_received, $date_returned, $eastings, $northings, $postcode
     );
 
     // Execute query and check for errors
@@ -285,12 +285,12 @@
         
     }
 	
-	function searchBowsers($eastings, $northings)
+	function searchBowsers($e1, $e2, $n1, $n2)
 {
 
             $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             $q = $db->prepare("SELECT * FROM bowsers WHERE active = 1 AND ( (eastings BETWEEN ? AND ?) AND (northings BETWEEN ? AND ?) );");
-            $q->bind_param('iiii', $eastings - 5000, $eastings + 5000, $northings - 5000, $northings + 5000);
+            $q->bind_param('iiii', $e1, $e2, $n1, $n2);
             $q->execute();
 
             $res = $q->get_result();
@@ -306,6 +306,8 @@
             return $items;
         
     }
+
+
 	
 	function getItemsAdmin($platform)
 {
