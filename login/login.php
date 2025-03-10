@@ -49,19 +49,19 @@ function verifyUser($username, $password) {
                     setcookie("user_name", $username, time() + 86400, '/');
                 } else {
                     // Redirect to login page with error message if account is banned
-                    header("Location: ../login/?err=" . urlencode($aes->encrypt("This account has been banned", "secretkey")));
+                    header("Location: ../login/?err=" . urlencode($aes->encrypt("This account has been banned", "henrywroteallofthiscode")));
                 }
             } else {
                 // Redirect to login page with error message if password is incorrect
-                header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "secretkey")));
+                header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "henrywroteallofthiscode")));
             }
         } else {
             // Redirect to login page with error message if username is not found
-            header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "secretkey")));
+            header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "henrywroteallofthiscode")));
         }
     } else {
         // Redirect to login page with error message if username or password is empty
-        header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "secretkey")));
+        header("Location: ../login/?err=" . urlencode($aes->encrypt("Username or password is incorrect!", "henrywroteallofthiscode")));
     }
 }
 
