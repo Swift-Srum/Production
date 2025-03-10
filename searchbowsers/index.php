@@ -6,6 +6,8 @@ header("X-Content-Type-Options: nosniff");
 
 $username = $_COOKIE['user_name'];
 $sessionID = $_COOKIE['sessionId'];
+$idx = getUserID();
+
 
 // AES decryption
 $aes = new AES256;
@@ -17,7 +19,7 @@ $loggedIn = confirmSessionKey($username, $sessionID);
 $isAdmin = checkIsUserAdmin($username, $sessionID);
 
 if (!$loggedIn) {
-    echo '<a href="/login" class="login-btn">Login</a>';
+    echo 'Please login';
     exit; // Stop further execution if the user is not logged in.
 }
 
@@ -31,16 +33,32 @@ if ($postcode) {
         $eastings = $data['result']['eastings'];
         $northings = $data['result']['northings'];
     } else {
-        echo "Error: Unable to retrieve data for postcode '$postcode'.";
-        exit;
+        $eastings = 0;
+		$northings = 0;
     }
 }
 
 $userType = $isAdmin ? "Admin" : "Standard";
 $isAdmin = $isAdmin ? 1 : 0;
-// Fetch items based on eastings and northings
-$items = searchBowsers($eastings, $northings);
 
+$distance = $_GET['distance'] * 1000;
+
+if ($distance > 30)
+	$distance == 30;
+
+$n1 = $northings - $distance;
+$n2 = $northings + $distance;
+$e1 = $eastings - $distance;
+$e2 = $eastings + $distance;
+
+try {
+    
+	$items = searchBowsers($e1, $e2, $n1, $n2);
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+	$items = [];
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,16 +77,30 @@ $items = searchBowsers($eastings, $northings);
 <body>
 <?php
     if ($loggedIn) {
-        echo '<a href="/create-item" class="login-btn">Create Item</a>';
-        echo '<a href="/my-items" class="login-btn">My Bowsers</a>';
+        echo '<a href="/create-bowser" class="login-btn">Add Bowser</a>';
+        //echo '<a href="/my-items" class="login-btn">My Bowsers</a>';
     }
 ?>
+
 <div class="top"></div>
 <div class="text"><h1>TEST</h1></div>
+
+<!-- Postcode Search Bar -->
+<!-- Postcode Search Bar with Distance Slider -->
+<form method="GET" action="" class="search-form">
+    <input type="text" name="postcode" placeholder="Enter postcode" required>
+    <div class="slider-container">
+		<label for="distance" style="color: white;">Distance: <span id="distanceValue">15</span> km</label>
+		<input type="range" id="distance" name="distance" min="1" max="30" value="15" oninput="updateDistanceValue(this.value)">
+	</div>
+    <button type="submit">Search</button>
+</form>
+
+
 <div class="content">
     <div class="mainHeader">
         <div class="mainHeaderText">
-            <div class="HeaderText">Just checking  if plesk is linked</div>
+            <div class="HeaderText">TEST</div>
             <div class="HeaderText textPurple">TEST</div>
         </div>
     </div>
@@ -81,13 +113,14 @@ $items = searchBowsers($eastings, $northings);
             $itemImageName = getItemImage($id);
             $ownerName = getUsernameById($ownerId);
             $avaliable = $item['active'] ?? 0;
+			$postcode = $item['postcode'];
         ?>
             <div class="product">
-                <img src="/create-item/uploads/<?php echo htmlspecialchars($itemImageName); ?>" alt="Product Image" class="productImage" onerror="this.onerror=null;this.src='/create-item/uploads/NOIMAGE.jpg';"/>
+                <img src="/create-bowser/uploads/<?php echo htmlspecialchars($itemImageName); ?>" alt="Product Image" class="productImage" onerror="this.onerror=null;this.src='/create-item/uploads/NOIMAGE.jpg';"/>
                 <div class="productTitle"><?php echo $model; ?></div>
                 <div class="productInfo">
                     <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:35px"/>
-                    <div>Model: <?php echo $model; ?></div>
+                    <div>Postcode: <?php echo $postcode; ?></div>
                 </div>
                 <div class="productInfo">
                     <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:35px"/>
@@ -95,14 +128,14 @@ $items = searchBowsers($eastings, $northings);
                 </div>
                 <div class="productInfo">
                     <img src="/assets/arrow-right.svg" alt="SVG Image" style="font-size:35px"/>
-                    <div>Seller: <?php echo $ownerName; ?></div>
+                    <div>Owned By: <?php echo $ownerName; ?></div>
                 </div>
                 <?php if ($avaliable == 1) { ?>
                     <div onclick="location.href = '../item-details?itemId=<?php echo $id; ?>';" class="getAccessBtn">View</div>
                 <?php } else { ?>
                     <div class="getAccessBtn">Unavailable</div>
                 <?php } ?>
-                <?php if ($isAdmin) { ?>
+                <?php if ($isAdmin || $idx == $ownerId) { ?>
                     <div onclick="location.href = '../edit-item?itemId=<?php echo $id; ?>';" class="getAccessBtn">Edit</div>
                 <?php } ?>
             </div>
@@ -135,6 +168,11 @@ function deleteItem(id) {
         console.error("Error during fetch:", error);
     });
 }
+</script>
+<script>
+    function updateDistanceValue(value) {
+        document.getElementById("distanceValue").textContent = value;
+    }
 </script>
 </body>
 </html>
