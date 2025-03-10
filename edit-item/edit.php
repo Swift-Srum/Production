@@ -63,12 +63,12 @@ function submitItem($id, $name, $price, $details, $buyLink) {
     // Checking if insertion was successful
     if ($q->affected_rows == 1) {
         // Redirecting with success message
-        header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("Item edited successfully.", "secretkey")));
+        header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("Item edited successfully.", "henrywroteallofthiscode")));
         exit(); // Exit script after redirection
     }
 
     // Redirecting with error message if insertion failed
-    header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("An unknown error occurred.", "secretkey")));
+    header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("An unknown error occurred.", "henrywroteallofthiscode")));
     exit(); // Exit script after redirection
 }
 
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         submitItem($id, $name, $price, $details, $buyLink);
     } else {
         // If any required field is empty, return error response and redirect with error message
-        header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("Please fill out all fields", "secretkey")));
+        header("Location: ../edit-item/?itemId=$id&err=" . urlencode($aes->encrypt("Please fill out all fields", "henrywroteallofthiscode")));
         exit(); // Exit script after redirection
     }
 } else {
