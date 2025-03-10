@@ -8,7 +8,7 @@ $sessionID = $_COOKIE['sessionId'];
 
 $aes = new AES256;
 $err = $_GET['err'];
-$err = $aes->decrypt($err, "secretkey");;
+$err = $aes->decrypt($err, "henrywroteallofthiscode");;
 
 $loggedIn = confirmSessionKey($username, $sessionID);
 $isAdmin = checkIsUserAdmin($username, $sessionID);
