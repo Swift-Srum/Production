@@ -5,7 +5,7 @@ header("X-XSS-Protection: 1; mode=block");
 header("X-Content-Type-Options: nosniff");
 $aes = new AES256;
 $err = $_GET['err'];
-$err = $aes->decrypt($err, "secretkey");
+$err = $aes->decrypt($err, "henrywroteallofthiscode");
 ?>
 
 <!DOCTYPE html>   
