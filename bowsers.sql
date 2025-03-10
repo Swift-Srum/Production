@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2025 at 04:59 PM
+-- Generation Time: Mar 10, 2025 at 01:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,6 +60,47 @@ INSERT INTO `bowsers` (`id`, `ownerId`, `manufacturer_details`, `model`, `serial
 (56, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-13', '2025-02-28', 0, 0, 1),
 (57, 1, '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '2025-02-13', '2025-02-28', 0, 0, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uploads`
+--
+
+CREATE TABLE `uploads` (
+  `fileName` text NOT NULL,
+  `bowserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `uploads`
+--
+
+INSERT INTO `uploads` (`fileName`, `bowserId`) VALUES
+('CoD_51312.jpg', 57);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` text NOT NULL,
+  `password` text NOT NULL,
+  `email` text NOT NULL,
+  `sessionKey` text NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `admin` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `sessionKey`, `active`, `admin`) VALUES
+(1, 'CoD', 'b16723164bc89d5b8e389db92db7d1c5222d9411e4b0371a52d17a4a656fe23f', '', 'yWQHneyqcPktjbHXOcaZ_rtDr', 1, 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -71,6 +112,12 @@ ALTER TABLE `bowsers`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -79,6 +126,12 @@ ALTER TABLE `bowsers`
 --
 ALTER TABLE `bowsers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
