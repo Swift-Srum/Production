@@ -63,7 +63,7 @@ function createAccount($username, $password) {
 
     // Return error response if insertion failed
     return "responseCode=2";
-    header("Location: ../register/?err=" . urlencode($aes->encrypt("An unknown error occurred.", "secretkey")));
+    header("Location: ../register/?err=" . urlencode($aes->encrypt("An unknown error occurred.", "henrywroteallofthiscode")));
 }
 
 // Processing POST data if present
@@ -76,7 +76,7 @@ if(isset($_POST['userID']) && isset($_POST['password']) && isset($_POST['confirm
     // Checking if passwords match
     if($password != $confirmPassword) {
         // Redirecting with error message if passwords don't match
-        header("Location: ../register/?err=" . urlencode($aes->encrypt("Passwords do not match", "secretkey")));
+        header("Location: ../register/?err=" . urlencode($aes->encrypt("Passwords do not match", "henrywroteallofthiscode")));
         echo 'responseCode=999';
         exit();
     }
@@ -85,7 +85,7 @@ if(isset($_POST['userID']) && isset($_POST['password']) && isset($_POST['confirm
     if(!empty($username) && !empty($password)) {
 		if(checkUserExists($username))
 			{
-			   header("Location: ../register/?err=" . urlencode($aes->encrypt("Username is already taken", "secretkey")));
+			   header("Location: ../register/?err=" . urlencode($aes->encrypt("Username is already taken", "henrywroteallofthiscode")));
                echo 'responseCode=999';
                exit();
 			}
@@ -94,13 +94,13 @@ if(isset($_POST['userID']) && isset($_POST['password']) && isset($_POST['confirm
             echo createAccount($username, $password);
         } else {
             // Redirecting with error message if username is not allowed
-            header("Location: ../register/?err=" . urlencode($aes->encrypt("The username is not allowed.", "secretkey")));
+            header("Location: ../register/?err=" . urlencode($aes->encrypt("The username is not allowed.", "henrywroteallofthiscode")));
             echo 'responseCode=3';
         }
     } else {
         // Redirecting with error message if username or password is blank
         echo 'responseCode=991';
-        header("Location: ../register/?err=" . urlencode($aes->encrypt("The username or password cannot be blank", "secretkey")));
+        header("Location: ../register/?err=" . urlencode($aes->encrypt("The username or password cannot be blank", "henrywroteallofthiscode")));
     }
 } else {
     // If POST data is not present, return response code 990
