@@ -1,5 +1,0 @@
-# Prevent directory listing (Indexing) and redirect to 404 page
-Options -Indexes
-
-# Custom 404 error page
-ErrorDocument 404 /404.html
